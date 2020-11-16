@@ -9,22 +9,16 @@ interface DayOverviewItemProps {
     onDeleteDay: (id: string) => void,
 }
 
-class DayOverviewItem extends React.Component<DayOverviewItemProps, {}> {
-
-    render() {
-        return (
-            <div className={styles.item}>
-                <div className={styles.textContent}>{format(this.props.day.date, "dd/MM/yyyy")}</div>
-                <Button
-                    onClick={() => this.props.onDeleteDay(this.props.day.id)}
-                    color="secondary"
-                >
-                    X
-                </Button>
-            </div>
-        );
-    }
-
-}
+const DayOverviewItem: React.FC<DayOverviewItemProps> = ({ day, onDeleteDay }: DayOverviewItemProps) => (
+    <div className={styles.item}>
+        <div className={styles.textContent}>{format(day.date, "dd/MM/yyyy")}</div>
+        <Button
+            onClick={() => onDeleteDay(day.id)}
+            color="secondary"
+        >
+            X
+        </Button>
+    </div>
+);
 
 export default DayOverviewItem;
