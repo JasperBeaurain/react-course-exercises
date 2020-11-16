@@ -1,0 +1,35 @@
+@import "../../styles/variables";
+
+.button {
+  outline: none;
+  padding: 0.5rem 1rem;
+  color: $white;
+  border: none;
+  cursor: pointer;
+  box-shadow: $shadow;
+
+  &:hover {
+    background: $dark;
+    color: $white;
+  }
+}
+
+.primary {
+  background: $primary;
+}
+
+
+.secondary {
+  background: $secondary;
+  color: $dark;
+}
+
+.disabled {
+  background: #a1a1a1;
+  cursor: not-allowed;
+
+  &:hover {
+    background: #a1a1a1 !important;
+    color: $white !important;
+  }
+}

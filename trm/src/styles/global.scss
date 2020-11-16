@@ -1,0 +1,17 @@
+@import "variables";
+
+html, body {
+  font-family: "Helvetica", sans-serif;
+  color: $dark;
+  background: $off-white;
+  padding: 0;
+  margin: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: normal;
+}

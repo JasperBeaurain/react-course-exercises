@@ -1,6 +1,8 @@
 import React from "react";
 import Day from "../../models/Day";
 import { format } from "date-fns"
+import Button from "../Button/Button";
+import styles from "./DayOverviewItem.module.scss";
 
 interface DayOverviewItemProps {
     day: Day,
@@ -11,19 +13,15 @@ class DayOverviewItem extends React.Component<DayOverviewItemProps, {}> {
 
     render() {
         return (
-            <li>
-                <span>{format(this.props.day.date, "dd/MM/yyyy")}</span>
-                <button
-                    style={{
-                        marginLeft: "1rem",
-                        marginTop: "0.5rem",
-                        marginBottom: "0.5rem",
-                    }}
+            <div className={styles.item}>
+                <div className={styles.textContent}>{format(this.props.day.date, "dd/MM/yyyy")}</div>
+                <Button
                     onClick={() => this.props.onDeleteDay(this.props.day.id)}
+                    color="secondary"
                 >
                     X
-                </button>
-            </li>
+                </Button>
+            </div>
         );
     }
 

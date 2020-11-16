@@ -1,0 +1,14 @@
+@import "../../styles/variables";
+
+
+.header {
+  width: 100%;
+  background: $white;
+  box-shadow: $shadow;
+
+  > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}

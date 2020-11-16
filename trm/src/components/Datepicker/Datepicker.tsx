@@ -1,5 +1,6 @@
 import React from "react";
 import { parse } from "date-fns";
+import styles from "./Datepicker.module.scss";
 
 interface DatepickerProps {
     value?: Date,
@@ -29,6 +30,7 @@ class Datepicker extends React.Component<DatepickerProps, DatepickerState> {
     render() {
         return (
             <input
+                className={styles.datepicker}
                 type="date"
                 onChange={event => this.updateValue(event.target.value)}
             />

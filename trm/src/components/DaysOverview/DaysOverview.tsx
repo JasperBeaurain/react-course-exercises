@@ -3,9 +3,12 @@ import Day from "../../models/Day";
 import DayOverviewItem from "../DayOverviewItem/DayOverviewItem";
 import { v4 as uuidv4 } from "uuid";
 import Datepicker from "../Datepicker/Datepicker";
+import Button from "../Button/Button";
+import styles from "./DaysOverview.module.scss";
+import ButtonRow from "../ButtonRow/ButtonRow.component";
 
 interface DaysOverviewProps {
-    
+
 }
 
 interface DaysOverviewState {
@@ -50,26 +53,25 @@ class DaysOverview extends React.Component<DaysOverviewProps, DaysOverviewState>
 
     render() {
         return (
-            <div>
-                <h3>Days overview</h3>
-                <button
-                    onClick={() => this.addDay(new Date())}
-                    style={{
-                        marginRight: "1rem"
-                    }}
-                >
-                    Add today
-                </button>
-                <Datepicker
-                    onChange={this.selectAddDayDate}
-                />
-                <button
-                    disabled={this.state.addDayDate === undefined}
-                    onClick={() => this.addDay(this.state.addDayDate)}
-                >
-                    Add day
-                </button>
-                <ul>
+            <>
+                <h2>Days overview</h2>
+                <ButtonRow>
+                    <Datepicker
+                        onChange={this.selectAddDayDate}
+                    />
+                    <Button
+                        disabled={this.state.addDayDate === undefined}
+                        onClick={() => this.addDay(this.state.addDayDate)}
+                    >
+                        Add day
+                    </Button>
+                    <Button
+                        onClick={() => this.addDay(new Date())}
+                    >
+                        Add today
+                    </Button>
+                </ButtonRow>
+                <div className={styles.items}>
                     { this.state.days.map(day => (
                         <DayOverviewItem
                             key={day.id}
@@ -77,8 +79,8 @@ class DaysOverview extends React.Component<DaysOverviewProps, DaysOverviewState>
                             onDeleteDay={this.deleteDay}
                         />
                     ))}
-                </ul>
-            </div>
+                </div>
+            </>
         );
     }
 }
