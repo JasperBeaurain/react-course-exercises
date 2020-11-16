@@ -1,15 +1,19 @@
 import React, { useState } from "react";
 import Day from "../../models/Day";
-import DayOverviewItem from "../DayOverviewItem/DayOverviewItem";
+import DayOverviewItemComponent from "../DayOverviewItem/DayOverviewItem.component";
 import { v4 as uuidv4 } from "uuid";
-import Datepicker from "../Datepicker/Datepicker";
+import Datepicker from "../Datepicker/Datepicker.component";
 import Button from "../Button/Button";
 import styles from "./DaysOverview.module.scss";
 import ButtonRow from "../ButtonRow/ButtonRow.component";
 
+interface DaysOverviewProps {
+    days: Day[],
+    setDays: (days: Day[]) => void,
+}
 
-const DaysOverview: React.FC = () => {
-    const [days, setDays] = useState<Day[]>([]);
+const DaysOverview: React.FC<DaysOverviewProps> = ({ days, setDays }: DaysOverviewProps) => {
+
     const [addDayDate, setAddDayDate] = useState<Date | undefined>(undefined);
 
     const addDay = (date?: Date) => {
@@ -18,6 +22,7 @@ const DaysOverview: React.FC = () => {
         const newDay = {
             id: uuidv4(),
             date: date,
+            timeRecords: [],
         };
 
         setDays([...days, newDay]);
@@ -48,7 +53,7 @@ const DaysOverview: React.FC = () => {
             </ButtonRow>
             <div className={styles.items}>
                 { days.map(day => (
-                    <DayOverviewItem
+                    <DayOverviewItemComponent
                         key={day.id}
                         day={day}
                         onDeleteDay={deleteDay}

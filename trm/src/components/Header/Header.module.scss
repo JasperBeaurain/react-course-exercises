@@ -8,7 +8,31 @@
 
   > div {
     display: flex;
+    padding: 0 1rem;
     justify-content: space-between;
-    align-items: center;
+    align-items: stretch;
   }
+}
+
+.nav {
+  background: $white;
+
+  a {
+    text-decoration: none;
+    color: $dark;
+    padding: 0.5rem 1rem;
+    display: inline-flex;
+    height: 100%;
+    align-items: center;
+    border-top: 3px solid transparent;
+
+    &:hover {
+      background: $primary;
+      color: $white;
+    }
+  }
+}
+
+.active {
+  border-top: 3px solid $primary !important;
 }
