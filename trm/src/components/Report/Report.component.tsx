@@ -1,13 +1,11 @@
 import React from "react";
-import Day from "../../models/Day";
 import ReportItem from "./ReportItem.component";
 import styles from "./Report.module.scss";
+import { useSelector } from "react-redux";
+import { days as daysSelector } from "../../store/days.slice";
 
-interface ReportProps {
-    days: Day[],
-}
-
-const Report: React.FC<ReportProps> = ({ days }: ReportProps) => {
+const Report: React.FC = () => {
+    const days = useSelector(daysSelector);
     const daysCount = days.length;
     const trCount = days.reduce((trCount, day) => trCount + day.timeRecords.length, 0);
     const avgTrCountPerDay = trCount / daysCount;

@@ -1,36 +1,18 @@
 import React, { useState } from "react";
-import Day from "../../models/Day";
 import DayOverviewItemComponent from "../DayOverviewItem/DayOverviewItem.component";
-import { v4 as uuidv4 } from "uuid";
 import Datepicker from "../Datepicker/Datepicker.component";
 import Button from "../Button/Button";
 import styles from "./DaysOverview.module.scss";
 import ButtonRow from "../ButtonRow/ButtonRow.component";
+import { useDispatch, useSelector } from "react-redux";
+import { days as daysSelector } from "../../store/days.slice";
+import { AppDispatch } from "../../store/store";
+import { addDay } from "../../store/days.actions";
 
-interface DaysOverviewProps {
-    days: Day[],
-    setDays: (days: Day[]) => void,
-}
-
-const DaysOverview: React.FC<DaysOverviewProps> = ({ days, setDays }: DaysOverviewProps) => {
-
+const DaysOverview: React.FC = () => {
+    const days = useSelector(daysSelector);
+    const dispatch = useDispatch<AppDispatch>();
     const [addDayDate, setAddDayDate] = useState<Date | undefined>(undefined);
-
-    const addDay = (date?: Date) => {
-        if(date === undefined) return;
-
-        const newDay = {
-            id: uuidv4(),
-            date: date,
-            timeRecords: [],
-        };
-
-        setDays([...days, newDay]);
-    }
-
-    const deleteDay = (id: string) => {
-        setDays(days.filter(day => day.id !== id));
-    }
 
     return (
         <>
@@ -41,12 +23,12 @@ const DaysOverview: React.FC<DaysOverviewProps> = ({ days, setDays }: DaysOvervi
                 />
                 <Button
                     disabled={addDayDate === undefined}
-                    onClick={() => addDay(addDayDate)}
+                    onClick={() => addDayDate && dispatch(addDay(addDayDate))}
                 >
                     Add day
                 </Button>
                 <Button
-                    onClick={() => addDay(new Date())}
+                    onClick={() => dispatch(addDay(new Date()))}
                 >
                     Add today
                 </Button>
@@ -56,7 +38,6 @@ const DaysOverview: React.FC<DaysOverviewProps> = ({ days, setDays }: DaysOvervi
                     <DayOverviewItemComponent
                         key={day.id}
                         day={day}
-                        onDeleteDay={deleteDay}
                     />
                 ))}
             </div>

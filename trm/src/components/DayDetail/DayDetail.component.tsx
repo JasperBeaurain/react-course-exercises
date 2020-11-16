@@ -1,38 +1,25 @@
 import React, { useState } from "react";
 import { useRouteMatch } from "react-router-dom";
 import { format } from "date-fns";
-import Day from "../../models/Day";
 import ButtonRow from "../ButtonRow/ButtonRow.component";
 import Button from "../Button/Button";
 import TimeInput from "../TimeInput/TimeInput.component";
 import ListItem from "../ListItem/ListItem.component";
-import TimeRecord from "../../models/TimeRecord";
 import styles from "./DayDetail.module.scss";
+import { useDispatch, useSelector } from "react-redux";
+import { days as daysSelector } from "../../store/days.slice";
+import { addTimeRecord, deleteTimeRecord } from "../../store/days.actions";
+import { AppDispatch } from "../../store/store";
 
-interface DayDetailProps {
-    days: Day[],
-    addTimeRecord: (dayId: string, fromTime: string, toTime: string) => void,
-    deleteTimeRecord: (dayId: string, timeRecordId: string) => void,
-}
-
-const DayDetail: React.FC<DayDetailProps> = ({ days, addTimeRecord, deleteTimeRecord }: DayDetailProps) => {
+const DayDetail: React.FC = () => {
+    const dispatch = useDispatch<AppDispatch>();
+    const days = useSelector(daysSelector);
     const match = useRouteMatch<{id: string}>();
     const dayId = match.params.id;
     const day = days.find(day => day.id === dayId);
 
     const [fromTime, setFromTime] = useState<string | undefined>(undefined);
     const [toTime, setToTime] = useState<string | undefined>(undefined);
-
-    const onAddButtonClicked = () => {
-        if (fromTime && toTime && day?.id) {
-            addTimeRecord(day.id, fromTime, toTime)
-        }
-    };
-    const onDeleteButtonClicked = (tr: TimeRecord) => {
-        if (day?.id && tr.id) {
-            deleteTimeRecord(day.id, tr.id);
-        }
-    };
 
     if (day === undefined) {
         return (<>No day found with that id</>);
@@ -48,7 +35,7 @@ const DayDetail: React.FC<DayDetailProps> = ({ days, addTimeRecord, deleteTimeRe
                 <TimeInput onChange={setToTime} />
                 <Button
                     disabled={!fromTime || !toTime}
-                    onClick={onAddButtonClicked}
+                    onClick={() => fromTime && toTime && day?.id && dispatch(addTimeRecord(day.id, fromTime, toTime))}
                 >
                     Add time record
                 </Button>
@@ -58,7 +45,7 @@ const DayDetail: React.FC<DayDetailProps> = ({ days, addTimeRecord, deleteTimeRe
                     <ListItem text={`${timeRecord.from} - ${timeRecord.to}`}>
                         <Button
                             color="secondary"
-                            onClick={() => onDeleteButtonClicked(timeRecord)}
+                            onClick={() => day?.id && timeRecord.id && dispatch(deleteTimeRecord(day.id, timeRecord.id))}
                         >
                             Delete
                         </Button>
