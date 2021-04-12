@@ -3,28 +3,28 @@ import Day from "../../models/Day";
 import { format } from "date-fns"
 import Button from "../Button/Button";
 import styles from "./DayOverviewItem.module.scss";
+import {removeDayAction} from "../../store/trm.slice";
+import {useDispatch} from "react-redux";
+import {AppDispatch} from "../../store/store";
 
 interface DayOverviewItemProps {
     day: Day,
-    onDeleteDay: (id: string) => void,
 }
 
-class DayOverviewItem extends React.Component<DayOverviewItemProps, {}> {
+const DayOverviewItem: React.FC<DayOverviewItemProps> = ({ day }: DayOverviewItemProps) => {
+    const dispatch = useDispatch<AppDispatch>();
 
-    render() {
-        return (
-            <div className={styles.item}>
-                <div className={styles.textContent}>{format(this.props.day.date, "dd/MM/yyyy")}</div>
-                <Button
-                    onClick={() => this.props.onDeleteDay(this.props.day.id)}
-                    color="secondary"
-                >
-                    X
-                </Button>
-            </div>
-        );
-    }
-
+    return (
+        <div className={styles.item}>
+            <div className={styles.textContent}>{format(day.date, "dd/MM/yyyy")}</div>
+            <Button
+                onClick={() => dispatch(removeDayAction(day.id))}
+                color="secondary"
+            >
+                X
+            </Button>
+        </div>
+    );
 }
 
 export default DayOverviewItem;
