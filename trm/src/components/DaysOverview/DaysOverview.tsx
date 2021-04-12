@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Day from "../../models/Day";
 import DayOverviewItem from "../DayOverviewItem/DayOverviewItem";
 import { v4 as uuidv4 } from "uuid";
 import Datepicker from "../Datepicker/Datepicker";
@@ -8,7 +7,7 @@ import styles from "./DaysOverview.module.scss";
 import ButtonRow from "../ButtonRow/ButtonRow.component";
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch} from "../../store/store";
-import {addDayAction, daysSelector, dayToAddSelector, removeDayAction, setDayToAddAction} from "../../store/trm.slice";
+import {add, daysSelector, dayToAddSelector, setDayToAdd } from "../../store/trm.slice";
 
 
 const DaysOverview: React.FC = () => {
@@ -19,7 +18,7 @@ const DaysOverview: React.FC = () => {
     const addDay = (date?: Date) => {
         if(date === undefined) return;
 
-        dispatch(addDayAction({
+        dispatch(add({
             id: uuidv4(),
             date: date,
         }));
@@ -30,7 +29,7 @@ const DaysOverview: React.FC = () => {
             <h2>Days overview</h2>
             <ButtonRow>
                 <Datepicker
-                    onChange={day => dispatch(setDayToAddAction(day.valueOf()))}
+                    onChange={day => dispatch(setDayToAdd(day.valueOf()))}
                 />
                 <Button
                     disabled={addDayDate === undefined}

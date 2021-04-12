@@ -1,12 +1,13 @@
-import {combineReducers, createStore} from "redux";
+import {combineReducers} from "redux";
 import trmReducer from "./trm.slice";
+import {configureStore} from "@reduxjs/toolkit";
 
 
 const rootReducer = combineReducers({
     trm: trmReducer,
 });
 
-const store = createStore(rootReducer);
+const store = configureStore({ reducer: rootReducer });
 
 export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof rootReducer>;
