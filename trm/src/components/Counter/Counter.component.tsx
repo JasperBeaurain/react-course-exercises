@@ -1,29 +1,44 @@
-import React, {createRef, useEffect, useState} from "react";
+import React, {createRef} from "react";
 import useFocus from "./useFocus";
+import {useSelector} from "react-redux";
+import {
+    useAppDispatch
+} from "../../store/store";
+import {
+    counterDecremented,
+    counterIncremented,
+    counterIncrementedByStoredValue,
+    incrementByValueUpdated
+} from "./Counter.actions";
+import {countSelector, incrementBySelector} from "./Counter.slice";
 
 const Counter: React.FunctionComponent = () => {
-    const [count, setCount] = useState<number>(0);
-    const [incrementValue, setIncrementValue] = useState<number>(0);
+    const dispatch = useAppDispatch();
 
     const inputRef = createRef<HTMLInputElement>();
     useFocus(inputRef);
 
     return (
         <>
-            <p>Count : {count}</p>
+            <p>Count : {useSelector(countSelector)}</p>
             <button
-                onClick={() => setCount(count + 1)}
+                onClick={() => dispatch(counterIncremented())}
             >
                 ++
             </button>
+            <button
+                onClick={() => dispatch(counterDecremented())}
+            >
+                --
+            </button>
             <input
                 type="number"
-                value={incrementValue}
+                value={useSelector(incrementBySelector)}
                 ref={inputRef}
-                onChange={event => setIncrementValue(+event.target.value)}
+                onChange={event => dispatch(incrementByValueUpdated(+event.target.value))}
             />
             <button
-                onClick={() => setCount(count + incrementValue)}
+                onClick={() => dispatch(counterIncrementedByStoredValue())}
             >
                 + inc
             </button>
